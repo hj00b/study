@@ -9,7 +9,7 @@ for i in range(n) :
 words = set(words)
 words = list(words)
 
-words.sort(key=str.__len__)
+words.sort(key=len)
 
 def ord_comparison(words_list, i , rep):
     if len(words_list[i]) > rep and ord(words_list[i][rep]) == ord(words_list[i+1][rep]):
