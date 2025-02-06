@@ -9,3 +9,4 @@
   - 03일&emsp;31403&emsp;&emsp;A + B -C
   - 04일&emsp;2562&emsp;&emsp;&ensp;최댓값
   - 05일&emsp;2884&emsp;&emsp;&ensp;알람시계
+  - 06일&emsp;10250&emsp;&emsp;ACM 호텔
