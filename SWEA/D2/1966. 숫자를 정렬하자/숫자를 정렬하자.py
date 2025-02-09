@@ -29,7 +29,9 @@ for test_case in range(1, T + 1):
         count_list[num_list[j]] -= 1
         sorted_list[count_list[num_list[j]]] = num_list[j]
 
-    print(f'#{test_case} ', end="")
-    for num in sorted_list:
-        print(num, end=" ")
-    print()
+    #print(f'#{test_case} ', end="")
+    #for num in sorted_list:
+    #    print(num, end=" ")
+    #print()
+    # 리스트의 요소 출력할 때 참고하기 
+    print(f"#{test_case} {' '.join(map(str, sorted_list))}")
