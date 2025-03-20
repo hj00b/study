@@ -1,43 +1,36 @@
-def find_set(x):
-    if p[x] == x:
-        return x
-    p[x] = find_set(p[x])
-    return p[x]
+from heapq import heappop, heappush
 
 
-def union(x, y):
-    if x > y :
-        x, y = y, x
+def prim(start_node):
+    # 우선순위 큐를 사용해서 현재 노드에서 가장 가중치가 작은 것 선택
+    pq = [(0, start_node)]
+    MST = [0] * (V+1)
 
-    ref_x = find_set(x)
-    ref_y = find_set(y)
+    min_w = 0
 
-    if ref_x == ref_y:
-        return
+    while pq:
+        node_w, node = heappop(pq)
+        if MST[node]:
+            continue
+        MST[node] = 1
+        min_w += node_w
 
-    p[ref_y] = ref_x
+        # 이동한 자리에서 방문 가능한 노드 찾기
+        for next_node in graph[node]:
+            if MST[next_node[1]]:
+                continue
+            heappush(pq, next_node)
+    return min_w
 
 
 T = int(input())
 for tc in range(1, T+1):
     V, E = map(int, input().split())
-    edges = []
-    p = list(range(V+1))
+    graph = [[] for _ in range(V+1)]
+
     for _ in range(E):
         s, e, w = map(int, input().split())
-        edges.append((w, s, e))
-
-    cnt = 0
-    result = 0
-    edges.sort()
-    for w, u, v in edges:
-        if find_set(u) == find_set(v):
-            continue
-        union(u, v)
-        result += w
-        cnt += 1
-        if cnt == V-1:
-            break
-    print(f"#{tc} {result}")
-
-
+        graph[s].append((w, e))
+        graph[e].append((w, s))
+    ans = prim(1)
+    print(f"#{tc} {ans}")
