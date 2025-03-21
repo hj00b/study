@@ -4,6 +4,8 @@ from heapq import heappop, heappush
 def prim(start_node):
     pq = [(0, start_node)]
     MST = [0] * N
+    dists = [float('inf')] * N
+    dists[start_node] = 0
 
     min_cost = 0
 
@@ -15,11 +17,16 @@ def prim(start_node):
         min_cost += cost
         # 갈 수 있는 곳 확인
         for idx in range(N):
-            if arr[node][idx] == 0:
+            next_dist = arr[node][idx]
+            if next_dist == 0:
                 continue
             if MST[idx]:
                 continue
-            heappush(pq, (arr[node][idx], idx))
+            # prim 알고리즘 최적화. dist가 더 짧은 경우가 있다면 우선순위 큐에 간선을 삽입하지 않음
+            if dists[idx] < next_dist:
+                continue
+            dists[idx] = next_dist
+            heappush(pq, (next_dist, idx))
     return min_cost
 
 
