@@ -43,29 +43,26 @@ for r, c in cctvs:
         ray_map[(r,c)][d] = cells
 
 
-def recursion(visited, idx):
+def dfs(idx, covered):
     global max_value
     if idx == len(cctvs):
-        max_value = max(max_value, sum(map(sum,visited)))
+        max_value = max(max_value, covered)
         return
 
     r, c = cctvs[idx]
-
     for case in cctv_model[arr[r][c]]:
-        for_use = deepcopy(visited)
+        marked = []
         for d in case:
-            k = 1
-            while True:
-                nr, nc = r + dr[d]*k, c + dc[d]*k
-                if 0 <= nr < N and 0 <= nc < M:
-                    k += 1
-                    if arr[nr][nc] == 6:
-                        break
-                    if not for_use[nr][nc]:
-                        for_use[nr][nc] = 1
-                else:
-                    break
-        recursion(for_use, idx+1)
+            for nr, nc in ray_map[(r,c)][d]:
+                if not visited[nr][nc]:
+                    visited[nr][nc] = 1
+                    marked.append((nr, nc))
+        dfs(idx+1, covered + len(marked))
+        for nr, nc in marked:
+            visited[nr][nc] = 0
 
-recursion(visited, 0)
+
+# 초기 visited 셋업 후
+init_covered = sum(sum(row) for row in visited)
+dfs(0, init_covered)
 print(N*M - max_value)
